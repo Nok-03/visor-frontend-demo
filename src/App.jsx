@@ -61,7 +61,8 @@ const VISOR_ITEMS = [
     description: '自動紀錄傾角、加速度與行車軌跡，事故發生時自動觸發緊急通報。',
     placeholderText: '預留區域：波形圖與數據',
     gridClass: 'col-span-2 row-span-1',
-    clipPath: 'polygon(0 2rem, 2rem 0, 100% 0, 100% 100%, 0 100%)'
+    clipPath: 'polygon(0 2rem, 2rem 0, 100% 0, 100% 100%, 0 100%)',
+    videoSrc: '/yolov26-demo2.mp4'
   },
   {
     id: 'v2x-connect',
