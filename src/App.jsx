@@ -5,99 +5,76 @@ import { Activity, ShieldAlert, Navigation, Cpu, Eye, Wifi, X } from 'lucide-rea
 // ==========================================
 // 1. 先宣告客製化內容元件 (系統架構圖)
 // ==========================================
+// 1. 系統架構與核心哲學元件 (對應第二張圖)
 const SystemArchitectureContent = () => {
   return (
     <div className="w-full h-full flex flex-col lg:flex-row gap-6 p-4 overflow-y-auto">
-
-      {/* 左半邊：Pipeline 架構流程圖 */}
-      <div className="flex-1 bg-slate-900/80 border border-cyan-500/30 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none" />
-
-        <h3 className="text-xl font-bold text-cyan-400 mb-4 flex items-center space-x-2">
-          <span className="w-2 h-2 bg-cyan-400 rounded-full animate-ping" />
-          <span>Pipeline 架構</span>
-        </h3>
-
-        {/* 流程節點展示 */}
-        <div className="space-y-4 my-auto">
-          {/* 第一層：Input -> YOLOv26n -> LSTR CULane */}
-          <div className="grid grid-cols-3 gap-3 text-center">
-            <div className="bg-slate-950/80 border border-slate-700 p-3 rounded-xl">
-              <div className="text-xs text-cyan-300 font-bold">Input</div>
-              <div className="text-[10px] text-slate-400 mt-1 font-mono">1280x720 @ 30 fps</div>
-            </div>
-            <div className="bg-slate-950/80 border border-blue-500/40 p-3 rounded-xl shadow-[0_0_15px_rgba(59,130,246,0.2)]">
-              <div className="text-xs text-blue-400 font-bold">YOLOv26n</div>
-              <div className="text-[10px] text-slate-400 mt-1 font-mono">2.6M params<br />imgsiz=320</div>
-            </div>
-            <div className="bg-slate-950/80 border border-emerald-500/40 p-3 rounded-xl">
-              <div className="text-xs text-emerald-400 font-bold">LSTR CULane</div>
-              <div className="text-[10px] text-slate-400 mt-1 font-mono">TorchScript<br />765K params</div>
-            </div>
+      <div className="flex-1 bg-slate-900/80 border border-cyan-500/30 rounded-2xl p-6 flex flex-col justify-between">
+        <h3 className="text-lg font-bold text-cyan-400 mb-4">Pipeline 架構</h3>
+        <div className="space-y-3 my-auto">
+          <div className="grid grid-cols-3 gap-2 text-center text-xs">
+            <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-700 text-cyan-300">Input<br/><span className="text-[9px] text-slate-400">1280x720 @ 30fps</span></div>
+            <div className="bg-slate-950 p-2.5 rounded-xl border border-blue-500/40 text-blue-300">YOLOv26n<br/><span className="text-[9px] text-slate-400">2.6M params</span></div>
+            <div className="bg-slate-950 p-2.5 rounded-xl border border-emerald-500/40 text-emerald-300">LSTR CULane<br/><span className="text-[9px] text-slate-400">765K params</span></div>
           </div>
-
-          {/* 向下箭頭指示 */}
-          <div className="flex justify-center my-1">
-            <div className="w-0.5 h-6 bg-cyan-500/50 relative animate-pulse" />
-          </div>
-
-          {/* 第二層：Spatial Fusion v2 -> 3-Tier Threat -> HUD Render */}
-          <div className="grid grid-cols-3 gap-3 text-center">
-            <div className="bg-slate-950/80 border border-purple-500/40 p-3 rounded-xl">
-              <div className="text-xs text-purple-400 font-bold">Spatial Fusion v2</div>
-              <div className="text-[10px] text-slate-400 mt-1 font-mono">Per-class • EMA TTC</div>
-            </div>
-            <div className="bg-slate-950/80 border border-amber-500/40 p-3 rounded-xl">
-              <div className="text-xs text-amber-400 font-bold">3-Tier Threat</div>
-              <div className="text-[10px] text-slate-400 mt-1 font-mono">crit / warn / caution</div>
-            </div>
-            <div className="bg-slate-950/80 border border-pink-500/40 p-3 rounded-xl">
-              <div className="text-xs text-pink-400 font-bold">HUD Render</div>
-              <div className="text-[10px] text-slate-400 mt-1 font-mono">Lane + 4-color</div>
-            </div>
+          <div className="flex justify-center"><div className="w-0.5 h-4 bg-cyan-500/50" /></div>
+          <div className="grid grid-cols-3 gap-2 text-center text-xs">
+            <div className="bg-slate-950 p-2.5 rounded-xl border border-purple-500/40 text-purple-300">Spatial Fusion v2</div>
+            <div className="bg-slate-950 p-2.5 rounded-xl border border-amber-500/40 text-amber-300">3-Tier Threat</div>
+            <div className="bg-slate-950 p-2.5 rounded-xl border border-pink-500/40 text-pink-300">HUD Render</div>
           </div>
         </div>
       </div>
+      <div className="w-full lg:w-[42%] bg-slate-900/80 border border-blue-500/30 rounded-2xl p-6 flex flex-col justify-between text-xs space-y-2">
+        <h3 className="text-lg font-bold text-blue-400 mb-2">核心設計原則</h3>
+        <div className="bg-slate-950/50 p-2.5 rounded-xl border border-slate-800">⚡ <b>CPU-only 邊緣部署</b>：全在 ARM Cortex-A76 執行。</div>
+        <div className="bg-slate-950/50 p-2.5 rounded-xl border border-slate-800">🔗 <b>輕量化模型選型</b>：總大小小於 9MB。</div>
+        <div className="bg-slate-950/50 p-2.5 rounded-xl border border-slate-800">🛡️ <b>機車專用 TTC 閥值</b>：較 ISO 15623 更嚴格。</div>
+        <div className="bg-slate-950/50 p-2.5 rounded-xl border border-slate-800">📈 <b>三重時序穩定</b>：EMA 平滑 + 突變過濾 + Coasting。</div>
+      </div>
+    </div>
+  );
+};
 
-      {/* 右半邊：核心設計原則 */}
-      <div className="w-full lg:w-[42%] bg-slate-900/80 border border-blue-500/30 rounded-2xl p-6 flex flex-col justify-between">
-        <h3 className="text-xl font-bold text-blue-400 mb-4">核心設計原則</h3>
-
-        <div className="space-y-4">
-          <div className="flex items-start space-x-3 bg-slate-950/50 p-3 rounded-xl border border-slate-800">
-            <span className="text-amber-400 text-lg">⚡</span>
-            <div>
-              <div className="text-sm font-bold text-slate-200">CPU-only 邊緣部署</div>
-              <div className="text-xs text-slate-400 mt-0.5">全部推論在 ARM Cortex-A76 上執行，無 GPU/CUDA 依賴。</div>
-            </div>
+// 2. LSTR 車道偵測與威脅分級元件 (對應第一張圖)
+const LstrAndThreatContent = () => {
+  return (
+    <div className="w-full h-full flex flex-col lg:flex-row gap-6 p-4 overflow-y-auto">
+      <div className="flex-1 bg-slate-900/80 border border-emerald-500/30 rounded-2xl p-6 flex flex-col justify-between text-xs">
+        <div>
+          <h3 className="text-lg font-bold text-emerald-400 mb-2">🛣️ LSTR 車道偵測 + 時序穩定</h3>
+          <p className="text-slate-300 mb-3 leading-relaxed">
+            以 ResNet18s 骨幹搭配 Transformer Decoder 輸出有理函數曲線，適應台灣道路環境。
+          </p>
+          <div className="space-y-1.5 font-mono bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <div className="text-emerald-300">✅ 有理函數：x = c0/(y-c1)^2 + ...</div>
+            <div className="text-slate-300">✅ EMA 平滑：α=0.4 / 突變降 0.08 + Coasting 15 幀</div>
+            <div className="text-slate-300">✅ Skip-2 跳幀：每 3 幀推論一次 (~17ms/幀)</div>
           </div>
-
-          <div className="flex items-start space-x-3 bg-slate-950/50 p-3 rounded-xl border border-slate-800">
-            <span className="text-emerald-400 text-lg">🔗</span>
-            <div>
-              <div className="text-sm font-bold text-slate-200">輕量化模型選型</div>
-              <div className="text-xs text-slate-400 mt-0.5">YOLOv26n (2.6M) + LSTR (765K) 總大小小於 9MB。</div>
-            </div>
-          </div>
-
-          <div className="flex items-start space-x-3 bg-slate-950/50 p-3 rounded-xl border border-slate-800">
-            <span className="text-cyan-400 text-lg">🛡️</span>
-            <div>
-              <div className="text-sm font-bold text-slate-200">機車專用 TTC 閥值</div>
-              <div className="text-xs text-slate-400 mt-0.5">較 ISO 15623 汽車標準更嚴格 (1.0 / 1.5 / 2.5s)，搭配距離上限防止誤報。</div>
-            </div>
-          </div>
-
-          <div className="flex items-start space-x-3 bg-slate-950/50 p-3 rounded-xl border border-slate-800">
-            <span className="text-purple-400 text-lg">📈</span>
-            <div>
-              <div className="text-sm font-bold text-slate-200">三重時序穩定</div>
-              <div className="text-xs text-slate-400 mt-0.5">EMA 平滑 (α=0.4) + 突變過濾 (α=0.08) + 15 幀慣性 Coasting。</div>
-            </div>
+        </div>
+        <div className="mt-3 pt-3 border-t border-slate-800">
+          <div className="font-bold text-slate-200 mb-2 font-mono">Per-Class 真實寬度</div>
+          <div className="bg-slate-950 rounded-xl overflow-hidden font-mono text-[11px]">
+            <div className="grid grid-cols-3 bg-slate-900 p-1.5 text-slate-400"><div>Class</div><div className="text-center">Width</div><div className="text-right">Dist</div></div>
+            <div className="grid grid-cols-3 p-1.5 border-t border-slate-900"><div>car</div><div className="text-center text-cyan-400">1.8 m</div><div className="text-right">36 m</div></div>
+            <div className="grid grid-cols-3 p-1.5 border-t border-slate-900"><div>scooter</div><div className="text-center text-cyan-400">0.7 m</div><div className="text-right">14 m</div></div>
           </div>
         </div>
       </div>
-
+      <div className="w-full lg:w-[48%] bg-slate-900/80 border border-amber-500/30 rounded-2xl p-6 flex flex-col justify-between text-xs">
+        <div>
+          <h3 className="text-lg font-bold text-amber-400 mb-2">🛡️ 距離估算 + TTC 威脅分級</h3>
+          <div className="space-y-1.5 font-mono bg-slate-950 p-3 rounded-xl border border-slate-800 mb-3">
+            <div className="text-red-400">🔴 critical : TTC &lt; 1.0s &amp; dist &lt; 2.0m</div>
+            <div className="text-orange-400">🟠 warning : TTC &lt; 1.5s &amp; dist &lt; 4.0m</div>
+            <div className="text-yellow-400">🟡 caution : TTC &lt; 2.5s &amp; dist &lt; 8.0m</div>
+          </div>
+        </div>
+        <div className="space-y-2 font-mono">
+          <div className="bg-red-950/40 border border-red-500/50 p-2 rounded-xl text-red-200 text-[11px]">🔴 [CRITICAL] SCOOTER 3.2m TTC 0.8s</div>
+          <div className="bg-orange-950/40 border border-orange-500/50 p-2 rounded-xl text-orange-200 text-[11px]">🟠 [WARNING] CAR 8.0m TTC 1.9s</div>
+        </div>
+      </div>
     </div>
   );
 };
@@ -189,16 +166,61 @@ const VISOR_ITEMS = [
   },
   {
     id: 'route-nav',
-    title: '系統架構與核心哲學',
+    title: '系統架構與核心哲學', // 👈 換這裡
     subtitle: 'Pipeline & Core Design Principles',
     icon: Navigation,
     color: 'from-indigo-500 to-purple-600',
     description: '基於 ARM 架構的最佳化邊緣運算模型與多重時序穩定機制。',
-    placeholderText: '預留區域：動態地圖軌跡',
+    placeholderText: '預留區域：系統架構',
     gridClass: 'col-span-1 row-span-1',
     clipPath: 'polygon(0 0, 100% 0, 100% 100%, 1.5rem 100%, 0 calc(100% - 1.5rem))',
-
-    // 🚀 新增：宮格專屬的迷你示意圖 (Preview)
+    previewContent: (
+      <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 z-0 pointer-events-none flex items-center justify-between px-2 py-1.5 bg-slate-950/80 border border-cyan-500/40 rounded-xl text-[9px] font-mono text-cyan-300">
+        <span>Input</span> ➔ <span>YOLOv26</span> ➔ <span>HUD</span>
+      </div>
+    ),
+    customContent: <SystemArchitectureContent /> // 👈 綁定第二張圖元件
+  },
+  {
+    id: 'edge-computing',
+    title: 'LSTR 車道偵測與威脅分級', // 👈 換這裡
+    subtitle: 'Lane Detection & Threat Assessment',
+    icon: Cpu,
+    color: 'from-amber-500 to-red-600',
+    description: '結合 LSTR 曲線預測與真實寬度距離估算的動態 TTC 威脅分級系統。',
+    placeholderText: '預留區域：LSTR 與威脅分級',
+    gridClass: 'col-span-1 row-span-1',
+    clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 1.5rem), calc(100% - 1.5rem) 100%, 0 100%)',
+    previewContent: (
+      <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 z-0 pointer-events-none flex items-center justify-around px-2 py-1 bg-slate-950/80 border border-amber-500/40 rounded-xl text-[9px] font-mono text-amber-300">
+        <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+        <span>LSTR Lane + TTC</span>
+      </div>
+    ),
+    customContent: <LstrAndThreatContent /> // 👈 綁定第一張圖元件
+  },
+  {
+    id: 'telemetry',
+    title: '郊區輕車流',
+    subtitle: '1,682 detections - 22 threats - 38.3 FPS',
+    icon: Activity,
+    color: 'from-teal-500 to-cyan-600',
+    description: '自動紀錄傾角、加速度與行車軌跡，事故發生時自動觸發緊急通報。',
+    placeholderText: '預留區域：波形圖與數據',
+    gridClass: 'col-span-2 row-span-1',
+    clipPath: 'polygon(0 2rem, 2rem 0, 100% 0, 100% 100%, 0 100%)',
+    videoSrc: '/yolov26-demo2.mp4'
+  },
+  {
+    id: 'v2x-connect',
+    title: '系統架構與核心哲學',
+    subtitle: 'Pipeline & Core Design Principles',
+    icon: Wifi,
+    color: 'from-blue-500 to-teal-400',
+    description: '基於 ARM 架構的最佳化邊緣運算模型與多重時序穩定機制。。',
+    placeholderText: '預留區域：動態地圖軌跡',
+    gridClass: 'col-span-2 row-span-1',
+    clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 2rem), calc(100% - 2rem) 100%, 0 100%)',
     previewContent: (
       <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 z-0 pointer-events-none flex items-center justify-between px-2 py-1.5 bg-slate-950/80 border border-cyan-500/40 rounded-xl shadow-[0_0_15px_rgba(6,182,212,0.2)]">
         <div className="flex items-center space-x-1.5 text-[9px] font-mono font-bold text-cyan-300">
@@ -218,40 +240,6 @@ const VISOR_ITEMS = [
 
     // 展開後的大視窗內容維持不變
     customContent: <SystemArchitectureContent />
-  },
-  {
-    id: 'edge-computing',
-    title: 'Raspberry Pi 核心',
-    subtitle: 'Edge Hardware Processing',
-    icon: Cpu,
-    color: 'from-purple-600 to-pink-600',
-    description: '低功耗高效率車載單晶片電腦，提供毫秒級的影像處理。',
-    placeholderText: '預留區域：硬體架構圖',
-    gridClass: 'col-span-1 row-span-1',
-    clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 1.5rem), calc(100% - 1.5rem) 100%, 0 100%)'
-  },
-  {
-    id: 'telemetry',
-    title: '郊區輕車流',
-    subtitle: '1,682 detections - 22 threats - 38.3 FPS',
-    icon: Activity,
-    color: 'from-teal-500 to-cyan-600',
-    description: '自動紀錄傾角、加速度與行車軌跡，事故發生時自動觸發緊急通報。',
-    placeholderText: '預留區域：波形圖與數據',
-    gridClass: 'col-span-2 row-span-1',
-    clipPath: 'polygon(0 2rem, 2rem 0, 100% 0, 100% 100%, 0 100%)',
-    videoSrc: '/yolov26-demo2.mp4'
-  },
-  {
-    id: 'v2x-connect',
-    title: 'V2X 車聯網通訊',
-    subtitle: 'Vehicle-to-Everything',
-    icon: Wifi,
-    color: 'from-blue-500 to-teal-400',
-    description: '支援周邊車輛與智慧路口設備訊號連動，提前預警盲區交會車輛。',
-    placeholderText: '預留區域：車聯網拓撲動態圖',
-    gridClass: 'col-span-2 row-span-1',
-    clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 2rem), calc(100% - 2rem) 100%, 0 100%)'
   },
 ];
 
