@@ -1,0 +1,20 @@
+/* 使用標準 @import 引入 Tailwind CSS (可避開 VS Code @tailwind 警告) */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* 強制全畫面鎖定，絕對不允許出現滾輪 */
+* {
+  box-sizing: border-box !important;
+}
+
+html, body, #root {
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important; /* 徹底關閉滾輪 */
+  background-color: #020617; /* 深色背景備援 */
+} 

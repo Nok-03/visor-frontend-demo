@@ -1,0 +1,13 @@
+/* 強制鎖定全螢幕，徹底關閉瀏覽器滾輪 */
+html, body, #root {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden !important;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: border-box;
+}
